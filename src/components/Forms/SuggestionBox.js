@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   FormControl,
   Flex,
@@ -37,6 +37,8 @@ export default function SuggestionBox() {
   const theme = useTheme();
 
   const handleSubmit = event => {
+    event.preventDefault();
+
     const toSubmit = {
       topic,
       description,
@@ -63,7 +65,6 @@ export default function SuggestionBox() {
       .then(() => console.log('Success!'))
       .catch(error => console.log(error));
 
-    event.preventDefault();
     setSubmitted(true);
   };
 
@@ -81,11 +82,11 @@ export default function SuggestionBox() {
       maxWidth="1000px"
       margin="0 auto 3rem"
       padding="0 24px"
-      onKeyPress={event => {
-        if (event.key === 'Enter') {
-          handleSubmit(event);
-        }
-      }}
+      // onKeyPress={event => {
+      //   if (event.key === 'Enter') {
+      //     handleSubmit(event);
+      //   }
+      // }}
     >
       {/* netlify form handling */}
       <form
@@ -94,6 +95,7 @@ export default function SuggestionBox() {
         data-netlify-honeypot="bot-field"
         data-netlify="true"
         name="suggestion-box"
+        onSubmit={handleSubmit}
       >
         <input type="hidden" name="bot-field" />
         <input type="hidden" name="form-name" value="contact" />
@@ -187,7 +189,20 @@ export default function SuggestionBox() {
           </Flex>
 
           <Flex width="100%" justify="center">
-            <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton>
+            {/* <PrimaryButton onClick={handleSubmit}>Submit</PrimaryButton> */}
+            <input
+              type="submit"
+              value="SUBMIT"
+              style={{
+                background: `${theme.buttons.primary.backgroundColor.default}`,
+                color: `${theme.buttons.primary.color.default}`,
+                borderRadius: '2rem',
+                fontFamily: `${theme.buttons.primary.fontFamily}`,
+                fontWeight: 'bold',
+                padding: `${theme.buttons.primary.padding}`,
+                textTransform: `${theme.buttons.primary.textTransform}`,
+              }}
+            />
           </Flex>
         </Flex>
       </form>
